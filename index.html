@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SOMETHING / NOTHING</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background-color: #ffffff;
+      overflow: hidden;
+      font-family: 'Helvetica Neue', sans-serif;
+    }
+    h1 {
+      position: absolute;
+      top: 5%;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      font-size: 4rem;
+      letter-spacing: -1px;
+      color: #111;
+    }
+    .gallery {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .artwork {
+      position: absolute;
+      width: 200px;
+      transition: transform 0.2s ease;
+      cursor: pointer;
+    }
+    .popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(255, 255, 255, 0.95);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: left;
+      padding: 2rem;
+      z-index: 999;
+      display: none;
+    }
+    .popup-content {
+      max-width: 600px;
+    }
+    .popup h2 {
+      margin-bottom: 1rem;
+    }
+    .popup p {
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+    }
+    .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <h1>Untitled Exhibition</h1>
+  <div class="gallery">
+    <img src="1.jpeg" class="artwork" style="top: 20%; left: 10%;" data-title="Still Wet, Still Useless" data-date="2025.04.27" data-materials="불분명한 섬유, 수분, 먼지" data-desc="기능의 유예, 존재의 잉여, 의도의 실패. 우리는 단지 이름을 붙여줄 뿐이다.">
+    <!-- 여기에 이미지 더 추가 가능 -->
+    <img 
+    src="2.jpg" 
+    class="artwork" 
+    style="top: 40%; left: 60%;" 
+    data-title="Eyeglass Grave" 
+    data-date="2025.04.29" 
+    data-materials="렌즈, 플라스틱, 시간" 
+    data-desc="보려 했으나 버려졌다. 시선이 머문 적 없는 사물의 종말.">
+  
+  <img 
+    src="1.jpeg" 
+    class="artwork" 
+    style="top: 65%; left: 30%;" 
+    data-title="Mud Memory" 
+    data-date="2025.05.01" 
+    data-materials="토양, 시멘트, 바람" 
+    data-desc="흙더미는 증언하지 않는다. 그러나 그 자리에 남아 있었다.">
+  
+  <img 
+    src="1.jpeg" 
+    class="artwork" 
+    style="top: 15%; left: 75%;" 
+    data-title="Fragment of Use" 
+    data-date="2025.05.05" 
+    data-materials="플라스틱, 종이, 탈색" 
+    data-desc="이것은 마지막 흔적이다. 사용의 끝, 존재의 경계.">
+  </div>
+
+  <div class="popup" id="popup">
+    <div class="close-btn" onclick="closePopup()">&times;</div>
+    <div class="popup-content" id="popupContent"></div>
+  </div>
+
+  <script>
+    document.querySelectorAll('.artwork').forEach(art => {
+      art.addEventListener('click', () => {
+        const title = art.getAttribute('data-title');
+        const date = art.getAttribute('data-date');
+        const materials = art.getAttribute('data-materials');
+        const desc = art.getAttribute('data-desc');
+
+        const popupContent = `
+          <h2>${title}</h2>
+          <p><strong>제작일:</strong> ${date}</p>
+          <p><strong>재료:</strong> ${materials}</p>
+          <p>${desc}</p>
+        `;
+        document.getElementById('popupContent').innerHTML = popupContent;
+        document.getElementById('popup').style.display = 'flex';
+      });
+    });
+
+    function closePopup() {
+      document.getElementById('popup').style.display = 'none';
+    }
+
+    // 마우스 움직임에 따라 부유하게 움직이기
+    document.addEventListener('mousemove', e => {
+      document.querySelectorAll('.artwork').forEach(art => {
+        const speed = 0.02;
+        const x = (e.clientX - window.innerWidth / 2) * speed;
+        const y = (e.clientY - window.innerHeight / 2) * speed;
+        art.style.transform = `translate(${x}px, ${y}px)`;
+      });
+    });
+  </script>
+</body>
+</html>
