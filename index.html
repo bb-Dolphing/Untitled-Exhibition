@@ -40,9 +40,33 @@
       cursor: pointer;
       border: 2px solid white;
     }
+    #intro {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: black;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+  z-index: 10;
+  animation: fadeOut 2.5s ease forwards;
+  animation-delay: 1s;
+}
+
+@keyframes fadeOut {
+  0% { opacity: 1; }
+  100% { opacity: 0; visibility: hidden; }
+}
+#gallery-container {
+  cursor: url('cursor.png'), auto;
+}
   </style>
 </head>
 <body>
+  <div id="intro">WELCOME TO THE EXHIBITION</div>
+
   <div id="viewport">
     <div id="gallery-container">
       <img src="floor-map.png" id="floor-map" alt="Floor Map" />
