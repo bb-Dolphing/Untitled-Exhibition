@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Graffiti Wall</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      font-family: sans-serif;
+    }
+
+    body {
+      background: url('1.jpg') no-repeat center center fixed;
+      background-size: cover;
+    }
+
+    #toolbar {
+      position: fixed;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 10px;
+      padding: 10px;
+      display: flex;
+      gap: 10px;
+      z-index: 10;
+    }
+
+    #toolbar input[type="color"],
+    #toolbar input[type="range"],
+    #toolbar button {
+      cursor: pointer;
+    }
+
+    canvas {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+
+    #message {
+      position: fixed;
+      bottom: 20px;
+      width: 100%;
+      text-align: center;
+      color: #fff;
+      font-size: 1.2rem;
+      pointer-events: none;
+      z-index: 5;
+      text-shadow: 0 0 5px #000;
+    }
+  </style>
+</head>
+<body>
+  <div id="toolbar">
+    <input type="color" id="colorPicker" value="#ff00ff" />
+    <input type="range" id="brushSize" min="5" max="60" value="10" />
+    <button id="eraser">지우개</button>
+    <button id="clear">전체 지우기</button>
+  </div>
+  <canvas id="canvas"></canvas>
+  <div id="message">🖌️ 이 벽에 너의 생각을 남겨줘</div>
+
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    const colorPicker = document.getElementById('colorPicker');
+    const brushSize = document.getElementById('brushSize');
+    const eraser = document.getElementById('eraser');
+    const clear = document.getElementById('clear');
+
+    let painting = false;
+    let currentColor = colorPicker.value;
+    let currentBrushSize = brushSize.value;
+    let erasing = false;
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function getBrushPattern() {
+      const patternCanvas = document.createElement('canvas');
+      patternCanvas.width = patternCanvas.height = 20;
+      const pctx = patternCanvas.getContext('2d');
+      pctx.fillStyle = '#000';
+      pctx.arc(10, 10, 6, 0, Math.PI * 2);
+      pctx.fill();
+      return ctx.createPattern(patternCanvas, 'repeat');
+    }
+
+    function startPosition(e) {
+      painting = true;
+      draw(e);
+    }
+
+    function endPosition() {
+      painting = false;
+      ctx.beginPath();
+    }
+
+    function draw(e) {
+  if (!painting) return;
+
+  const x = e.clientX || e.touches?.[0]?.clientX;
+  const y = e.clientY || e.touches?.[0]?.clientY;
+
+  ctx.lineWidth = currentBrushSize;
+  ctx.lineCap = 'round';
+
+  if (erasing) {
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.strokeStyle = 'rgba(0,0,0,1)';
+  } else {
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.strokeStyle = currentColor;
+  }
+
+  // 기본 선 그리기
+  ctx.lineTo(x, y);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(x, y);
+
+  // 🎨 흘러내림 효과 (컬러 유지)
+  if (!erasing && Math.random() < 0.2) { // 20% 확률
+    const dripCount = Math.floor(Math.random() * 2) + 1;
+    for (let i = 0; i < dripCount; i++) {
+      const dx = x + (Math.random() - 0.5) * 10;
+      const dripLength = Math.random() * 30 + 15;
+
+      ctx.beginPath();
+      ctx.moveTo(dx, y);
+      ctx.lineTo(dx, y + dripLength);
+      ctx.lineWidth = 1 + Math.random() * 1.5;
+      ctx.strokeStyle = currentColor; // 흘러내림도 현재 컬러로
+      ctx.stroke();
+    }
+  }
+}
+
+
+
+    colorPicker.addEventListener('change', (e) => {
+      currentColor = e.target.value;
+      erasing = false;
+    });
+
+    brushSize.addEventListener('input', (e) => {
+      currentBrushSize = e.target.value;
+    });
+
+    eraser.addEventListener('click', () => {
+      erasing = true;
+    });
+
+    clear.addEventListener('click', () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    });
+
+    canvas.addEventListener('mousedown', startPosition);
+    canvas.addEventListener('mouseup', endPosition);
+    canvas.addEventListener('mousemove', draw);
+
+    canvas.addEventListener('touchstart', startPosition);
+    canvas.addEventListener('touchend', endPosition);
+    canvas.addEventListener('touchmove', draw);
+  </script>
+</body>
+</html>
