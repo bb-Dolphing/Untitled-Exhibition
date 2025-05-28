@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>초밥 헤엄</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: linear-gradient(to bottom, #4fc3f7, #0288d1);
+      height: 100vh;
+      font-family: sans-serif;
+    }
+
+    .sushi {
+      position: absolute;
+      width: 100px;
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.2s;
+    }
+
+    .sushi:hover {
+      transform: scale(1.2);
+    }
+
+    .info-box {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.95);
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-weight: bold;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      display: none;
+      z-index: 10;
+    }
+  </style>
+</head>
+<body>
+
+<div id="infoBox" class="info-box"></div>
+
+<script>
+  // 이미지 URL은 본인이 갖고 있는 이미지 링크 또는 로컬 경로로 바꾸세요!
+  const sushiData = [
+    {name: "광어 초밥", img: "123.png"},
+    {name: "연어롤", img: "https://pngimg.com/d/sushi_PNG98863.png"},
+    {name: "연어 초밥", img: "https://pngimg.com/uploads/sushi/sushi_PNG9219.png"},
+    {name: "참치 초밥", img: "https://upload.wikimedia.org/wikipedia/commons/f/f0/Tuna_nigiri.png"},
+    {name: "장어 초밥", img: "jang.png"},
+    {name: "초새우 초밥", img: "sh.png"},
+    {name: "계란 초밥", img: "tamago.png"},
+    // 필요하면 더 추가
+  ];
+
+  const infoBox = document.getElementById("infoBox");
+
+  function createSushi(sushi) {
+    const el = document.createElement("img");
+    el.className = "sushi";
+    el.src = sushi.img;
+    el.alt = sushi.name;
+
+    // 랜덤 초기 위치
+    el.style.left = Math.random() * window.innerWidth + "px";
+    el.style.top = Math.random() * window.innerHeight + "px";
+
+    // 랜덤 속도
+    const dx = (Math.random() - 0.5) * 2;
+    const dy = (Math.random() - 0.5) * 2;
+
+    function swim() {
+      let x = parseFloat(el.style.left);
+      let y = parseFloat(el.style.top);
+      x += dx;
+      y += dy;
+
+      if (x < -100) x = window.innerWidth + 50;
+      if (x > window.innerWidth + 100) x = -50;
+      if (y < -100) y = window.innerHeight + 50;
+      if (y > window.innerHeight + 100) y = -50;
+
+      el.style.left = x + "px";
+      el.style.top = y + "px";
+      requestAnimationFrame(swim);
+    }
+
+    el.addEventListener("click", () => {
+      infoBox.textContent = `이 초밥은 "${sushi.name}" 입니다!`;
+      infoBox.style.display = "block";
+      clearTimeout(infoBox.timeout);
+      infoBox.timeout = setTimeout(() => {
+        infoBox.style.display = "none";
+      }, 2000);
+    });
+
+    document.body.appendChild(el);
+    swim();
+  }
+
+  // 여러 개 띄우기 (종류별 3개씩)
+  for (let i = 0; i < 3; i++) {
+    sushiData.forEach(sushi => createSushi(sushi));
+  }
+</script>
+
+</body>
+</html>

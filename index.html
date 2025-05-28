@@ -99,13 +99,15 @@ a{
 
 #cursor {
   position: fixed;
+  top: 0;
+  left: 0;
   width: 25px;
   height: 25px;
-  background: black;
-  border-radius: 50%;
+  background: url('cursor.png') no-repeat center center;
+  background-size: contain;
   pointer-events: none;
-  z-index: 9999;
   transform: translate(-50%, -50%);
+  z-index: 9999;
 }
 
 </style>
@@ -115,7 +117,7 @@ a{
 
 <div class="zone yellow rotate" style="top: 80px; left: 180px;"><a href="2/index.html">Untitled</a></div>
 <div class="zone blue" style="top: 300px; left: 520px;"><a href="1/index.html">gravity</a></div>
-<div class="zone green big" style="top: 650px; left: 100px;">C ZONE</div>
+<div class="zone green big" style="top: 650px; left: 100px;">><a href="3/index.html">C ZONE</a></div>
 <div class="zone border-only" style="top: 400px; left: 800px;">→ 존 D</div>
 <div class="zone pink rotate-big" style="top: 220px; left: 900px;">E</div>
 
@@ -125,13 +127,14 @@ a{
 
 <div id="cursor"></div>
 
-<script src="app.js">
-  const cursor = document.getElementById('cursor');
+<script src="app.js"></script>
+<script>
+const cursor = document.getElementById('cursor');
 document.addEventListener('mousemove', e => {
   cursor.style.left = e.clientX + 'px';
   cursor.style.top = e.clientY + 'px';
 });
-
 </script>
+
 </body>
 </html>
