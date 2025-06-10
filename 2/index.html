@@ -3,27 +3,42 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Untitled Exhibition</title>
+  <title>UNTITLED OBJECTS</title>
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      /* 브루탈리즘: 텍스트 드래그 선택 방지 */
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
     }
     body {
-      background-color: #ffffff;
+      background-color: #000; /* 검은색 배경으로 변경 */
       overflow: hidden;
-      font-family: 'Helvetica Neue', sans-serif;
+      font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* 고정폭 폰트 */
+      color: #FFF; /* 기본 텍스트 색상 흰색 */
+      cursor: crosshair; /* 십자선 커서로 변경 */
+      -webkit-font-smoothing: none; /* 텍스트 안티앨리어싱 제거 */
     }
     h1 {
       position: absolute;
-      top: 5%;
+      top: 50px; /* 상단 여백 조절 */
       left: 50%;
       transform: translateX(-50%);
       text-align: center;
-      font-size: 4rem;
-      letter-spacing: -1px;
-      color: #111;
+      font-size: 7vmin; /* vw 대신 vmin 사용 (화면의 짧은 쪽 기준으로 크기 조절) */
+      letter-spacing: 0.1em; /* 자간 넓게 */
+      color: #00FFFF; /* 강렬한 사이버블루 */
+      border: 3px solid #00FFFF; /* 두꺼운 테두리 */
+      padding: 8px 18px; /* 패딩 살짝 줄임 */
+      text-shadow: 0 0 15px rgba(0, 255, 255, 0.7); /* 네온 효과 */
+      background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
+      line-height: 1; /* 줄간격 조절 */
+      z-index: 2; /* 갤러리 위에 보이도록 */
+      white-space: nowrap; /* 제목 줄 바꿈 방지 (핵심 수정) */
     }
     .gallery {
       position: relative;
@@ -33,93 +48,98 @@
     }
     .artwork {
       position: absolute;
-      width: 200px;
-      transition: transform 0.2s ease;
+      width: clamp(150px, 15vw, 300px); /* 이미지 크기 반응형 + 최소/최대값 */
+      height: auto;
+      object-fit: contain; /* 이미지 비율 유지 */
+      border: 2px solid #555; /* 이미지 테두리 추가 */
+      transition: transform 0.1s linear, filter 0.1s linear, box-shadow 0.1s linear; /* 즉각적인 트랜지션 */
       cursor: pointer;
+      z-index: 1; /* 기본 z-index */
+      filter: grayscale(100%) brightness(80%); /* 기본적으로 흑백에 어둡게 */
     }
+    .artwork:hover {
+      transform: scale(1.05) rotate(2deg); /* 살짝 커지고 회전 */
+      filter: grayscale(0%) brightness(100%); /* 호버 시 원본 색상으로 */
+      border-color: #FF0000; /* 경고색 테두리 */
+      box-shadow: 0 0 15px rgba(255, 0, 0, 0.7); /* 경고색 그림자 */
+      z-index: 3; /* 호버 시 위로 올라오게 */
+    }
+
+    /* 팝업 스타일 */
     .popup {
       position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100vh;
-      background-color: rgba(255, 255, 255, 0.95);
+      background-color: rgba(0, 0, 0, 0.95); /* 거의 불투명한 검은색 배경 */
       display: flex;
       align-items: center;
       justify-content: center;
       flex-direction: column;
       text-align: left;
       padding: 2rem;
-      z-index: 999;
-      display: none;
+      z-index: 9999; /* 최상단 */
+      display: none; /* 초기에는 숨김 */
+      color: #EFEFEF; /* 팝업 텍스트 색상 */
+      border: 5px solid #FF0000; /* 강렬한 경고색 테두리 */
+      box-shadow: 0 0 50px rgba(255, 0, 0, 0.8); /* 강렬한 경고색 그림자 */
     }
     .popup-content {
-      max-width: 600px;
+      max-width: 800px; /* 팝업 내용 최대 너비 */
+      padding: 30px;
+      border: 2px dashed #00FFFF; /* 내부에도 점선 테두리 */
     }
     .popup h2 {
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
+      font-size: clamp(2rem, 3vw, 3.5rem); /* 반응형 폰트 크기 */
+      color: #00FFFF; /* 제목색 강조 */
+      text-transform: uppercase; /* 대문자 */
+      letter-spacing: 0.05em;
+      text-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
     }
     .popup p {
-      margin-bottom: 0.5rem;
-      font-size: 0.95rem;
+      margin-bottom: 0.8rem;
+      font-size: clamp(0.9rem, 1.2vw, 1.2rem); /* 반응형 폰트 크기 */
+      line-height: 1.5;
+      color: #DDD;
     }
-    .close-btn {
-      position: absolute;
-      top: 20px;
-      right: 30px;
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: #666;
+    .popup p strong {
+      color: #FFDD00; /* 강조되는 정보는 노란색 */
     }
   </style>
 </head>
 <body>
-  <h1>Untitled Exhibition</h1>
+  <h1>[ UNTITLED EXHIBITION ]</h1>
   <div class="gallery">
-    <img src="1.jpeg" class="artwork" style="top: 20%; left: 10%;" data-title="Still Wet, Still Useless" data-date="2025.04.27" data-materials="불분명한 섬유, 수분, 먼지" data-desc="기능의 유예, 존재의 잉여, 의도의 실패. 우리는 단지 이름을 붙여줄 뿐이다.">
-    <!-- 여기에 이미지 더 추가 가능 -->
-    <img 
-    src="2.jpg" 
-    class="artwork" 
-    style="top: 40%; left: 60%;" 
-    data-title="Eyeglass Grave" 
-    data-date="2025.04.29" 
-    data-materials="렌즈, 플라스틱, 시간" 
-    data-desc="보려 했으나 버려졌다. 시선이 머문 적 없는 사물의 종말.">
-  
-  <img 
-    src="3.jpg" 
-    class="artwork" 
-    style="top: 65%; left: 30%;" 
-    data-title="Mud Memory" 
-    data-date="2025.05.01" 
-    data-materials="토양, 시멘트, 바람" 
-    data-desc="흙더미는 증언하지 않는다. 그러나 그 자리에 남아 있었다.">
-  
-  <img 
-    src="4.jpg" 
-    class="artwork" 
-    style="top: 15%; left: 75%;" 
-    data-title="Fragment of Use" 
-    data-date="2025.05.05" 
-    data-materials="플라스틱, 종이, 탈색" 
-    data-desc="이것은 마지막 흔적이다. 사용의 끝, 존재의 경계.">
-  </div>
-
-  <img 
-  src="5.jpg" 
-  class="artwork" 
-  style="top: 30%; left: 35%;" 
-  data-title="난다, 고래" 
-  data-date="2025.05.05" 
-  data-materials="마일드소지, 고화도 안료, 투명한 억압(나일론)" 
-  data-desc="실로 매달린 채 허공을 유영하는 세 마리의 고래.
-  그들은 헤엄치지 않는다. 매달려 있을 뿐이다.">
-</div>
-  
+    <img src="1.jpeg" class="artwork" style="top: 20%; left: 10%; transform: rotate(-5deg);"
+         data-title="Still Wet, Still Useless"
+         data-date="2025.04.27"
+         data-materials="불분명한 섬유, 수분, 먼지"
+         data-desc="기능의 유예, 존재의 잉여, 의도의 실패. 우리는 단지 이름을 붙여줄 뿐이다."
+         data-artist="UNKNOWN"> <img src="2.jpg" class="artwork" style="top: 40%; left: 60%; transform: rotate(8deg);"
+         data-title="Eyeglass Grave"
+         data-date="2025.04.29"
+         data-materials="렌즈, 플라스틱, 시간"
+         data-desc="보려 했으나 버려졌다. 시선이 머문 적 없는 사물의 종말."
+         data-artist="[ANONYMOUS]"> <img src="3.jpg" class="artwork" style="top: 65%; left: 30%; transform: rotate(-12deg);"
+         data-title="Forgotten Toy"
+         data-date="2025.05.01"
+         data-materials="코튼, 폴리에스터, 플러시, 폴리에스터 솜, 비즈"
+         data-desc="버려진 인형은 유년기 순수함의 상실과 시간의 잔혹함을 응축한 메타포로, 개인적 기억이 집단적 멜랑콜리로 전환되는 순간을 포착합니다. 물질의 훼손된 표면은 각각의 상처가 이야기가 되는 '메모리얼 아트'로서, 소비사회에서 버려진 애착 객체를 통해 애도 불가능한 상실에 대한 시각적 엘레지를 완성합니다."
+         data-artist="[REDACTED]"> <img src="4.jpg" class="artwork" style="top: 15%; left: 75%; transform: rotate(3deg);"
+         data-title="버려진 공중전화기 — 이제 걸 수 없는 전화, 닿지 않는 메시지"
+         data-date="2025.06.10"
+         data-materials="철제 외피, 유리 파편, 말 없는 수화기"
+         data-desc="이제는 연결되지 않는 전화기. 누군가를 향한 말들이 닿지 못한 채 공중에 머문다. 공허한 기계는 침묵 속에서 오래된 메시지를 품고 있다."
+         data-artist="UNKNOWN ENTITY"> <img src="5.jpg" class="artwork" style="top: 30%; left: 35%; transform: rotate(-8deg);"
+         data-title="난다, 고래"
+         data-date="2025.05.05"
+         data-materials="마일드소지, 고화도 안료, 투명한 억압(나일론)"
+         data-desc="실로 매달린 채 허공을 유영하는 세 마리의 고래. 그들은 헤엄치지 않는다. 매달려 있을 뿐이다."
+         data-artist="재현 정"> </div>
 
   <div class="popup" id="popup">
-    <div class="close-btn" onclick="closePopup()">&times;</div>
     <div class="popup-content" id="popupContent"></div>
   </div>
 
@@ -130,9 +150,11 @@
         const date = art.getAttribute('data-date');
         const materials = art.getAttribute('data-materials');
         const desc = art.getAttribute('data-desc');
+        const artist = art.getAttribute('data-artist') || 'Unknown';
 
         const popupContent = `
           <h2>${title}</h2>
+          <p><strong>작가:</strong> ${artist}</p>
           <p><strong>제작일:</strong> ${date}</p>
           <p><strong>재료:</strong> ${materials}</p>
           <p>${desc}</p>
@@ -142,9 +164,12 @@
       });
     });
 
-    function closePopup() {
-      document.getElementById('popup').style.display = 'none';
-    }
+    // 팝업 외부 클릭 시 팝업 닫기
+    document.getElementById('popup').addEventListener('click', function(event) {
+      if (event.target.id === 'popup') {
+        document.getElementById('popup').style.display = 'none';
+      }
+    });
 
     // 마우스 움직임에 따라 부유하게 움직이기
     document.addEventListener('mousemove', e => {
@@ -152,7 +177,9 @@
         const speed = 0.02;
         const x = (e.clientX - window.innerWidth / 2) * speed;
         const y = (e.clientY - window.innerHeight / 2) * speed;
-        art.style.transform = `translate(${x}px, ${y}px)`;
+        const currentTransform = art.style.transform.match(/rotate\(([^)]+)\)/);
+        const rotateValue = currentTransform ? currentTransform[0] : '';
+        art.style.transform = `translate(${x}px, ${y}px) ${rotateValue}`;
       });
     });
   </script>

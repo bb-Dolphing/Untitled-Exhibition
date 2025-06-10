@@ -2,138 +2,197 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>chaos lobby</title>
+  <title>CHAOS LOBBY - BRUTAL ARCHIVE</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
 </head>
 <style>
-  body, html {
+  /* style.css */
+
+/* 브루탈리즘 기본 스타일 */
+body, html {
   margin: 0;
-  background: #fff;
+  background: #EEE; /* 밋밋한 회색 배경 */
   overflow: hidden;
-  font-family: 'Arial Black', sans-serif;
-  cursor: none;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* 고정폭 시스템 폰트 */
+  color: #000;
+  /* 커서는 CSS로 직접 제어 */
+  cursor: none; /* 기본 커서 숨기기 */
+  -webkit-font-smoothing: none; /* 텍스트 안티앨리어싱 제거 (픽셀화된 느낌) */
+  user-select: none; /* 텍스트 선택 방지 */
 }
 
-a{
-  text-decoration: none;
-  color:#000
+a {
+  text-decoration: none; /* 기본 밑줄 제거 */
+  color: inherit; /* 부모 요소의 색상 상속 */
 }
 
+/* 제목 스타일 */
 .title {
   position: absolute;
-  top: 60px;
+  top: 50px; /* 약간 위로 올림 */
   left: 50%;
-  transform: translateX(-50%);
-  font-size: 7vw;
+  transform: translateX(-50%) rotate(5deg); /* 더 과감하게 회전 */
+  font-size: 8vw; /* 더 크게 */
   font-weight: 900;
-  line-height: 100%;
-  animation: fadeInDown 1s ease forwards;
+  line-height: 90%; /* 줄 간격 조절 */
+  color: #FF0000; /* 강렬한 빨간색 */
+  border: 5px solid #000; /* 두꺼운 테두리 */
+  padding: 10px 20px;
+  background-color: #FFFF00; /* 노란색 배경 */
+  animation: none; /* 초기 애니메이션 제거 (없거나 덜 부드럽게) */
+  text-shadow: 2px 2px #000; /* 텍스트 그림자 (옛날 게임 폰트 느낌) */
 }
 
+/* 영역 (Zone) 스타일 */
 .zone {
   position: absolute;
   padding: 20px;
-  font-size: 2vw;
+  font-size: 2.5vw; /* 더 크게 */
   font-weight: 700;
-  border: 2px solid #000;
-  animation: fadeInUp 1s ease forwards;
+  border: 3px solid #000; /* 더 굵은 테두리 */
+  text-align: center;
+  box-shadow: none; /* 기본 그림자 제거 */
+  text-transform: uppercase; /* 대문자로 통일 */
+  white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+  transition: all 0.05s linear; /* 부드러운 트랜지션 대신 즉각적인 반응 */
 }
 
-.zone.big {
-  font-size: 3vw;
-  padding: 50px;
+/* zone hover 효과 (브루탈리즘은 즉각적인 반응을 선호) */
+.zone:hover {
+  transform: scale(1.05); /* 살짝 커지기 */
+  background-color: #000 !important; /* 배경색 강제로 검정으로 변경 */
+  color: #FFF !important; /* 글자색 강제로 흰색으로 변경 */
+  border-color: #F00; /* 테두리색 변경 */
 }
 
-.zone.border-only {
-  background: none;
-  border: 4px dashed #000;
+
+.zone.zone-big {
+  font-size: 4vw; /* 더 크게 */
   padding: 40px;
+  border-width: 5px; /* 더 두껍게 */
 }
 
-.yellow { background: yellow; }
-.blue   { background: blue; color: #fff; }
-.green  { background: lime; }
-.pink   { background: hotpink; color: #000; }
+.zone.zone-border-only {
+  background: none;
+  border: 5px solid #000; /* dashed 대신 solid로 더 투박하게 */
+  padding: 30px;
+}
 
+/* 강렬한 원색 배경 */
+.zone-yellow   { background: yellow; }
+.zone-blue     { background: #00F; color: #FFF; } /* 완전 파랑 */
+.zone-green    { background: lime; } /* 완전 라임 */
+.zone-pink     { background: hotpink; color: #000; }
+
+/* 텍스트 스타일 */
 .text {
   position: absolute;
-  font-size: 2vw;
-  font-weight: 600;
+  font-size: 2.2vw; /* 약간 크게 */
+  font-weight: 800; /* 더 굵게 */
   color: #000;
-  animation: fadeInUp 1.5s ease forwards;
+  text-transform: uppercase; /* 대문자 */
+  line-height: 1.1;
+  text-shadow: 1px 1px #888; /* 텍스트 그림자 */
+  animation: none; /* 애니메이션 제거 */
 }
 
-.text.small {
-  font-size: 1vw;
+.text.text-small {
+  font-size: 1.2vw;
+  color: #555; /* 좀 더 어두운 색 */
 }
 
-.text.huge {
-  font-size: 5vw;
-  line-height: 1;
+.text.text-huge {
+  font-size: 6vw; /* 훨씬 크게 */
+  line-height: 0.9; /* 줄 간격 좁게 */
+  color: #00F; /* 파란색으로 강조 */
+  text-shadow: 3px 3px #F00; /* 빨간색 그림자 */
 }
 
-.text.chaos {
-  font-size: 4vw;
-  transform: rotate(8deg);
-  color: red;
+.text.text-chaos {
+  font-size: 4.5vw;
+  transform: rotate(12deg); /* 더 과감한 회전 */
+  color: #F00; /* 빨간색 */
+  border: 3px solid #000; /* 테두리 추가 */
+  padding: 5px 10px;
+  background-color: #FFF; /* 흰색 배경 */
+  text-shadow: none; /* 그림자 제거 */
 }
 
+/* 회전 효과 */
 .rotate {
-  transform: rotate(-5deg);
+  transform: rotate(-7deg); /* 더 강하게 회전 */
 }
 
 .rotate-big {
-  transform: rotate(10deg);
+  transform: rotate(15deg); /* 훨씬 강하게 회전 */
 }
 
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(50px);}
-  to   { opacity: 1; transform: translateY(0);}
-}
-
-@keyframes fadeInDown {
-  from { opacity: 0; transform: translateY(-50px);}
-  to   { opacity: 1; transform: translateY(0);}
-}
-
-#cursor {
+/* 커서 스타일 */
+#custom-cursor {
   position: fixed;
   top: 0;
   left: 0;
-  width: 25px;
-  height: 25px;
-  background: url('cursor.png') no-repeat center center;
-  background-size: contain;
+  width: 40px; /* 커서 크기 키움 */
+  height: 40px;
+  background: #F00; /* 강렬한 빨간색 사각형 커서 */
+  border: 2px solid #000;
   pointer-events: none;
   transform: translate(-50%, -50%);
   z-index: 9999;
+  mix-blend-mode: difference; /* 배경색과 섞이게 하여 대비 강조 */
 }
 
+/* 기타 브루탈리즘 요소 */
+/* 특정 요소에 테두리나 배경을 추가하여 날것의 느낌 */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 10px solid #000; /* 페이지 전체에 두꺼운 테두리 */
+    box-sizing: border-box;
+    pointer-events: none;
+    z-index: 1000;
+}
 </style>
 <body>
 
-<div class="title rotate">SPECIAL CITY</div>
+<div class="title rotate">
+  CHAOS<br>LOBBY
+</div>
 
-<div class="zone yellow rotate" style="top: 80px; left: 180px;"><a href="2/index.html">Untitled</a></div>
-<div class="zone blue" style="top: 300px; left: 520px;"><a href="1/index.html">grafity</a></div>
-<div class="zone green big" style="top: 650px; left: 100px;">><a href="3/index.html">C ZONE</a></div>
-<div class="zone border-only" style="top: 400px; left: 800px;">→ 존 D</div>
-<div class="zone pink rotate-big" style="top: 220px; left: 900px;">E</div>
+<a href="1/index.html" class="zone zone-blue rotate-big" style="top: 300px; left: 520px;">graffiti</a>
 
-<div class="text huge" style="top: 500px; left: 350px;">오늘의<br>특별 전시</div>
-<div class="text small rotate" style="top: 50px; left: 30px;">↖ 안내</div>
-<div class="text chaos" style="top: 300px; left: 100px;">WELCOME</div>
+<a href="2/index.html" class="zone zone-yellow rotate" style="top: 80px; left: 180px;">Untitled</a>
+<a href="3/index.html" class="zone zone-green zone-big" style="top: 650px; left: 100px;">AQUARIUM &gt;&gt;</a>
+<a href="4/index.html" class="zone zone-border-only" style="top: 400px; left: 800px;">허상의 배너</a>
+<a href="5/index.html" class="zone zone-pink rotate-big" style="top: 220px; left: 900px;">일상의 소ㄹi</a>
 
-<div id="cursor"></div>
 
-<script src="app.js"></script>
+<div class="text text-huge" style="top: 500px; left: 350px;">
+  오늘의<br>특별 전시
+</div>
+<div class="text text-small rotate" style="top: 50px; left: 30px;">
+  &lt;-- 안내
+</div>
+<div class="text text-chaos" style="top: 300px; left: 100px;">
+  WELCOME
+</div>
+
+<div id="custom-cursor"></div>
+
 <script>
-const cursor = document.getElementById('cursor');
+const customCursor = document.getElementById('custom-cursor');
 document.addEventListener('mousemove', e => {
-  cursor.style.left = e.clientX + 'px';
-  cursor.style.top = e.clientY + 'px';
-}); 
+  customCursor.style.left = e.clientX + 'px';
+  customCursor.style.top = e.clientY + 'px';
+});
+document.addEventListener('selectstart', (e) => {
+    e.preventDefault();
+});
 </script>
 
 </body>

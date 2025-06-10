@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>◆ 실시간 배너 아카이브 ◆</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<style>
+    /* style.css (Only minor adjustment needed for .banner-item padding if desired, but current works too) */
+
+    /* 모든 HTML 기본 여백/패딩 초기화 (선택 사항, 옛날엔 잘 안 했지만 깔끔함을 위해) */
+    body, h1, p, table, tr, td, div, img {
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        background-color: #008080; /* 투박한 원색 배경 (틸색) */
+        font-family: '궁서체', '굴림체', '돋움체', Arial, sans-serif; /* 옛날 폰트 지정 */
+        color: #000000; /* 기본 글자색은 검정 */
+        line-height: 1.5; /* 줄 간격 */
+        font-size: 12px; /* 기본 폰트 사이즈 */
+    }
+
+    /* 헤더 스타일 (HTML의 font 태그가 우선하지만, 혹시 모를 대비) */
+    header {
+        margin-bottom: 20px; /* 헤더 아래 여백 */
+    }
+
+    /* 배너 그리드 컨테이너 (이전 CSS Grid 속성 사용) */
+    #banner-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* 너비 조절 */
+        gap: 15px; /* 배너 간 간격 */
+        padding: 10px; /* 내부 패딩 */
+    }
+
+    /* 각 배너 아이템 스타일 */
+    .banner-item {
+        background-color: #DDDDDD; /* 투박한 회색 배경 */
+        border: 1px solid #888888; /* 진한 테두리 */
+        box-shadow: 2px 2px 0px #BBBBBB; /* 3D 버튼 같은 그림자 효과 */
+        padding: 5px; /* 내부 여백 - can be adjusted if removing text makes it look odd */
+        text-align: center;
+        transition: none; /* 트랜지션 효과 제거 */
+    }
+
+    .banner-item img {
+        max-width: 100%; /* 부모 요소보다 커지지 않게 */
+        height: auto; /* 비율 유지 */
+        display: block; /* 이미지 아래 기본 여백 제거 */
+        border: 1px solid #666666; /* 이미지에도 테두리 */
+        margin: 0 auto; /* 가운데 정렬, bottom margin removed as no text below */
+    }
+
+    /* .banner-info related styles are now effectively unused but can be kept or removed from CSS */
+    .banner-info {
+        display: none; /* Hides the info section */
+    }
+
+    /* 푸터 스타일 */
+    footer {
+        margin-top: 30px;
+        padding: 10px;
+        font-size: 11px;
+        color: #333333;
+        background-color: #DDDDDD;
+        border: 1px solid #888888;
+        box-shadow: 2px 2px 0px #BBBBBB;
+    }
+</style>
+<body>
+
+    <center>
+        <table width="800" border="1" cellpadding="10" cellspacing="0" bgcolor="#FFFFFF">
+            <tr>
+                <td align="center" valign="top">
+
+                    <img src="https://i.pinimg.com/originals/86/a1/f4/86a1f43c78f8606553609fe5eb693c7b.gif" alt="반짝이는 별" width="32" height="32">
+                    <font face="궁서체" size="6" color="#FF0000"><b><u>실시간 배너 아카이브</u></b></font>
+                    <img src="https://i.pinimg.com/originals/86/a1/f4/86a1f43c78f8606553609fe5eb693c7b.gif" alt="반짝이는 별" width="32" height="32"><br>
+                    <font face="굴림체" size="2" color="#000080">
+                        <p><b>✨ 지금 웹에 떠도는, 곧 사라질 배너들을 만나보세요! ✨</b></p>
+                        <p>본 페이지는 현재 웹에 노출되고 있는 배너들의 <font color="#800080"><b>소실 전 아카이빙</b></font> 목적으로 제작되었습니다.<br>
+                        배너의 저작권은 해당 기업 또는 개인에게 있습니다.</p>
+                    </font>
+                    <hr size="1" color="#CCCCCC">
+                    <div id="banner-grid">
+                        <div class="banner-item">
+                            <img src="https://i.pinimg.com/736x/88/fc/af/88fcaf630f079aed2005a24230ec4ae1.jpg" alt="최신 할인 이벤트 배너" width="180" height="60">
+                            </div>
+
+                        <div class="banner-item">
+                            <img src="https://i.pinimg.com/736x/98/67/3e/98673e932d0f3db0a814caf86d8d1c5b.jpg" alt="새로운 앱 출시 광고" width="180" height="60">
+                            </div>
+
+                        <div class="banner-item">
+                            <img src="https://i.pinimg.com/736x/26/be/ce/26bece4f53c41415efa00b7dc670e6ab.jpg" alt="게임 업데이트 이벤트 배너" width="180" height="60">
+                            </div>
+
+                        <div class="banner-item">
+                            <img src="https://i.pinimg.com/736x/17/54/07/17540781057355dc23cecdaeec559c81.jpg" alt="새로운 웹툰 추천" width="180" height="60">
+                        </div>
+
+                        <div class="banner-item">
+                            <img src="https://i.pinimg.com/736x/79/c5/41/79c541927374031665f866320986d390.jpg" alt="온라인 교육 과정 모집" width="180" height="60">
+                        </div>
+
+                        <div class="banner-item">
+                            <img src="https://i.pinimg.com/736x/65/cc/4e/65cc4eaa97f002cc6be71db3206c360d.jpg" alt="영화 개봉 예정작 광고" width="180" height="60">
+                        </div>
+
+                        <div class="banner-item">
+                            <img src="https://i.pinimg.com/736x/b0/71/d8/b071d8e6afcec80f98d6399b1ab9d16b.jpg" alt="부동산 투자 정보" width="180" height="60">
+                        </div>
+
+                        <div class="banner-item">
+                            <img src="https://i.pinimg.com/736x/1a/f5/b4/1af5b43d08983849fdda3f2c01d143e1.jpg" alt="건강 보조제 광고" width="180" height="60">
+                        </div>
+
+                        <div class="banner-item">
+                            <img src="https://i.pinimg.com/736x/ae/dd/c6/aeddc6af8b238001d9a0aef971cb098d.jpg" alt="여행 상품 특가" width="180" height="60">
+                        </div>
+                        <div class="banner-item">
+                            <img src="https://i.pinimg.com/736x/21/b8/62/21b862022d22dcbfe912df0401a55182.jpg" alt="여행 상품 특가" width="180" height="60">
+                        </div>
+                        <div class="banner-item">
+                            <img src="https://i.pinimg.com/736x/9e/e9/d5/9ee9d5cedc2887062522baf4b2c51192.jpg" alt="여행 상품 특가" width="180" height="60">
+                        </div>
+                        <div class="banner-item">
+                            <img src="https://i.pinimg.com/736x/48/08/ab/4808abe4296b412d104136dc28aeeb59.jpg" alt="여행 상품 특가" width="180" height="60">
+                        </div>
+                        <div class="banner-item">
+                            <img src="https://i.pinimg.com/736x/4c/a7/42/4ca7424fc2c752b24b00087fdeb04b74.jpg" alt="여행 상품 특가" width="180" height="60">
+                        </div>
+                        <div class="banner-item">
+                            <img src="https://i.pinimg.com/736x/f9/ad/3a/f9ad3ac537bffc2d503bb0bda64bc43e.jpg" alt="여행 상품 특가" width="180" height="60">
+                        </div>
+                        <div class="banner-item">
+                            <img src="https://i.pinimg.com/736x/62/3c/d0/623cd0dcc1adca08f40b5437dc3582da.jpg" alt="여행 상품 특가" width="180" height="60">
+                        </div>
+                        <div class="banner-item">
+                            <img src="https://i.pinimg.com/736x/3d/ae/89/3dae89023b8dc84a8e35211a250939ec.jpg" alt="여행 상품 특가" width="180" height="60">
+                        </div>
+                        <div class="banner-item">
+                            <img src="https://i.pinimg.com/736x/e6/bd/a0/e6bda022253400b9764fa22bae1d00cb.jpg" alt="여행 상품 특가" width="180" height="60">
+                        </div>
+                        <div class="banner-item">
+                            <img src="https://i.pinimg.com/736x/53/a4/cf/53a4cfb64ebcf8040dd8e2e2d75152a5.jpg" alt="여행 상품 특가" width="180" height="60">
+                        </div>
+                        <div class="banner-item">
+                            <img src="https://i.pinimg.com/736x/d7/ed/a9/d7eda9b7348969823b625a3884b72767.jpg" alt="여행 상품 특가" width="180" height="60">
+                        </div>
+                        <div class="banner-item">
+                            <img src="https://i.pinimg.com/736x/61/8a/a6/618aa68ba49599b94ba1d2f192587e29.jpg" alt="여행 상품 특가" width="180" height="60">
+                        </div>
+                        <div class="banner-item">
+                            <img src="https://i.pinimg.com/736x/4a/a6/22/4aa62291b7db3a56f3482e52b610b269.jpg" alt="여행 상품 특가" width="180" height="60">
+                        </div>
+                        </div>
+                    <br>
+                    <hr size="1" color="#CCCCCC">
+                    <font face="굴림체" size="2" color="#666666">
+                        <p>☎ 문의: currentweb@banner.com</p>
+                        <p>&copy; Banner Archive.</p>
+                    </font>
+                </td>
+            </tr>
+        </table>
+    </center>
+
+</body>
+</html>
